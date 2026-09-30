@@ -1,0 +1,32 @@
+[Unit]
+Description=Bilibili whitelist unfollow private web app
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=simple
+User=bili-unfollow
+Group=bili-unfollow
+WorkingDirectory=/opt/bili-unfollow
+Environment=BILI_DATA_DIR=/var/lib/bili-unfollow
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/opt/bili-unfollow/venv/bin/uvicorn app:create_app --factory --host 127.0.0.1 --port 22330 --workers 1 --no-access-log --log-level warning
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+UMask=0077
+MemoryAccounting=true
+MemoryHigh=96M
+MemoryMax=160M
+MemorySwapMax=128M
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/bili-unfollow
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

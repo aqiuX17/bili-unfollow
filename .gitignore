@@ -1,0 +1,15 @@
+data/
+venv/
+__pycache__/
+tests/__pycache__/
+*.pyc
+workspace-preview.png
+*.sqlite*
+*.db*
+*.log
+.env*
+credentials.key
+admin-password
+.DS_Store
+.venv/
+backups/

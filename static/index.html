@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>留白 · B 站关注整理</title><link rel="stylesheet" href="/static/style.css"><script src="/static/app.js" defer></script></head>
+<body>
+<header><a class="brand" href="/">留白<span>B 站关注整理</span></a><span class="privacy">私用工作台 · 白名单优先</span><button id="adminOut" class="quiet" hidden>退出管理</button></header>
+<main>
+<section id="adminGate" class="login-panel"><span class="eyebrow">YOUR FOLLOWING, YOUR CHOICE</span><h1>留下真正喜欢的。</h1><p>选择要保留的 UP 主，再整理其他关注。</p><form id="adminForm"><label for="password">管理密码</label><div class="input-action"><input id="password" type="password" autocomplete="current-password" required placeholder="输入部署时提供的密码"><button type="submit">进入工作台</button></div></form><p class="muted">B 站扫码登录在进入工作台后进行。</p></section>
+<div id="workspace" hidden>
+<div class="intro"><div><span class="eyebrow">FOLLOWING / WORKSPACE</span><h1>关注，做一点减法。</h1><p>勾选要保留的人。白名单之外的关注，会在你确认后逐个取关。</p></div><button id="refresh" class="secondary">刷新关注列表</button></div>
+<div class="layout"><aside>
+<section class="panel account"><span class="eyebrow">01 / 连接账号</span><h2 id="accountName">尚未登录 B 站</h2><p id="accountUid" class="muted">用 B 站 App 扫码，连接你的账号。</p><button id="qrButton">扫码登录</button><button id="biliOut" class="quiet" hidden>退出 B 站账号</button></section>
+<section class="panel white-info"><span class="eyebrow">02 / 保留名单</span><h2><span id="whiteCount">0</span> 位已保护</h2><p>白名单按 UID 保存。UP 主更换昵称，也会继续保留。</p><button id="whiteView" class="secondary">查看白名单</button></section>
+<section class="note"><strong>执行前，再看一遍。</strong><p>取关不会自动撤销。遇到风控或连接异常，任务会暂停，等待核对。</p></section>
+</aside><div class="content">
+<section class="panel following"><div class="section-head"><div><span class="eyebrow">02 / 选择要留下的人</span><h2>我的关注 <span id="totalCount" class="number">—</span></h2></div><span id="snapshotStatus" class="tag">待加载</span></div>
+<div class="filters"><label class="search"><span>搜索</span><input id="search" placeholder="昵称或 UID" aria-label="搜索昵称或 UID"></label><label class="toggle"><input id="onlyWhite" type="checkbox">只看白名单</label></div>
+<p id="listNote" class="muted">先扫码登录，再加载完整关注列表。</p><div id="rows" class="rows"></div><div class="pager"><span id="pageInfo">0 位</span><div><button id="prev" class="quiet">上一页</button><button id="next" class="quiet">下一页</button></div></div>
+<div class="action-bar"><div><strong id="actionSummary">先选白名单，再预览</strong><p>执行名单由服务器生成，保护已勾选的账号。</p></div><button id="preview" disabled>预览取关名单 →</button></div></section>
+<section id="taskPanel" class="panel task" hidden><div class="section-head"><div><span class="eyebrow">03 / 执行记录</span><h2 id="taskTitle">取关任务</h2></div><div class="task-actions"><button id="pause" class="secondary">暂停</button><button id="resume" class="secondary" hidden>核对并预览恢复</button><button id="cancel" class="quiet" hidden>结束任务</button></div></div><p id="taskMessage"></p><progress aria-label="任务处理进度" id="progress" value="0" max="1"></progress><div id="taskStats" class="task-stats"></div><label class="result-filter">结果筛选 <select id="resultFilter"><option value="all">全部</option><option value="confirmed">确认已取关</option><option value="accepted">待核对</option><option value="unknown">结果未确认</option><option value="failed">失败</option><option value="pending">未处理</option><option value="skipped">白名单保护</option></select></label><div id="taskRows" class="result-rows"></div><div class="pager"><span id="resultPageInfo"></span><div><button id="resultPrev" class="quiet">上一页</button><button id="resultNext" class="quiet">下一页</button></div></div></section>
+</div></div></div>
+<div id="notice" role="status" aria-live="polite" hidden></div>
+</main><footer>留白 / 你的关注，由你决定。<span>仅在确认后执行 · 每次请求前校验白名单</span></footer>
+<dialog id="qrDialog"><div class="dialog-head"><h2>连接 B 站账号</h2><button id="qrClose" class="quiet" aria-label="关闭">×</button></div><p>用 B 站 App 扫码，并在手机上确认登录。</p><img id="qrImage" alt="B 站登录二维码" class="qr"><p id="qrStatus" class="muted">正在生成二维码…</p><button id="qrRenew" class="secondary">重新生成</button></dialog>
+<dialog id="previewDialog"><div class="dialog-head"><div><span class="eyebrow">最后核对</span><h2 id="previewTitle">待取关名单</h2></div><button id="previewClose" class="quiet" aria-label="关闭">×</button></div><div id="previewNumbers" class="preview-numbers"></div><p>下面的人将被取关。名单里的账号不在白名单中。</p><div id="previewRows" class="preview-rows"></div><div class="pager"><span id="previewPageInfo"></span><div><button id="previewPrev" class="quiet">上一页</button><button id="previewNext" class="quiet">下一页</button></div></div><label class="confirm"><input id="confirmCheck" type="checkbox">我已核对名单，确认取关上述账号</label><button id="start" class="danger" disabled>确认开始取关</button><p class="muted">逐个执行，每次在每次请求结束后固定等待 5 秒。窗口关闭后任务继续；遇到异常会暂停。</p></dialog>
+</body></html>
